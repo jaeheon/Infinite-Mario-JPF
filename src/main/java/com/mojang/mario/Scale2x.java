@@ -41,7 +41,11 @@ public class Scale2x
         this.height = height;
 
         // A border of one pixel in each direction, and one down, to avoid if statements in the scale loop
-        sourceImage = new BufferedImage(width + 2, height + 3, BufferedImage.TYPE_INT_RGB);
+        try {
+        	sourceImage = new BufferedImage(width + 2, height + 3, BufferedImage.TYPE_INT_RGB);
+        } catch (java.lang.UnsatisfiedLinkError e) {
+        	System.err.println("Catch");
+        }
         DataBufferInt sourceDataBuffer = (DataBufferInt) sourceImage.getRaster().getDataBuffer();
         sourcePixels = sourceDataBuffer.getData();
         sourceGraphics = sourceImage.getGraphics();

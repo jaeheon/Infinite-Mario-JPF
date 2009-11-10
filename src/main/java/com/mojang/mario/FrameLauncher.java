@@ -1,6 +1,8 @@
 package com.mojang.mario;
 
 import java.awt.*;
+
+import javax.annotation.Nonnull;
 import javax.swing.*;
 
 public class FrameLauncher

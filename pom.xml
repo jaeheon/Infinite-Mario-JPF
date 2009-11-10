@@ -19,4 +19,11 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>gov.nasa.jpf.aprop</groupId>
+  		<artifactId>annotations</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+  </dependencies>
 </project>
