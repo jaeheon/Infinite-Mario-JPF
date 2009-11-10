@@ -1,4 +1,5 @@
 target = com.mojang.mario.FrameLauncher
 
 cg.enumerate_random = true
+classpath = ${config_path}/../../../bin/
 report.console.property_violation=error,trace
