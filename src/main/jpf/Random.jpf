@@ -2,4 +2,8 @@ target = com.mojang.mario.FrameLauncher
 
 cg.enumerate_random = true
 classpath = ${config_path}/../../../bin/
+search.properties=\
+gov.nasa.jpf.jvm.NotDeadlockedProperty
+// Disabled this as it cries about the Java API itself
+//,\ gov.nasa.jpf.jvm.NoUncaughtExceptionsProperty
 report.console.property_violation=error,trace
