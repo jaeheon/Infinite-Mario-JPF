@@ -135,7 +135,8 @@ It is here that our problems with JPF began. We were consistently encountering a
 
 \subsection{Quality and Ease of Use}
 Our initial impression of JPF was of a mature software system, able to be used for heavy-duty verification purposes as well as comprehensive testing. 
-
+However, the ease-of-use factor was not as high as one had hoped. 
+In particular, once we tried running a ``real program'', JPF's limitations became apparent, as we describe in more detail. 
 
 \subsection{Limitations}
 Although quite powerful, JPF has some limitations, some more serious to us than others. 
@@ -144,8 +145,9 @@ Another issue we encountered is that JPF requires a closed system to be tested.
 Although our Infinite Mario game already had a testing harness to automatically play the game, for other projects it represents a potentially significant undertaking to create such a testing harness for closing the system. 
 
 \section{Conclusion}
-
-
+We provide an overview of JPF, the Java PathFinder, and APROP, a property specification sub-project under JPF. 
+We attempt to check Infinite Mario, a substantial video game program, using JPF/APROP.
+Although JPF is a mature software system, we discovered some initial limitations of JPF that prevented us from checking non-nullity properties of Infinite Mario. 
 
 \bibliographystyle{plain}
 \bibliography{bib}
