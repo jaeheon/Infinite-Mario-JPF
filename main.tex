@@ -131,6 +131,9 @@ java.lang.UnsatisfiedLinkError: java.awt.image.ColorModel.initIDs()V (no peer)
 
 It is here that our problems with JPF began. We were consistently encountering an error message (Fig. \ref{listing:error}) claiming that there was an uncaught UnsatisifedLinkError inside the Java APIs themselves. This error occurs when attempting to load an image file from disk. Wrapping the original call in the Infinite Mario code with a \texttt{try/catch} did not alleviate the problem, and we were unable to coerce JPF to continue execution. At this point, we decided to refocus our efforts on trying to ascertain the limitations with JPF than attempting to continue with new examples. It was clear that there was a fundamental issue with JPF that we had not anticipated. 
 
+\subsection{Finding the limitations}
+We decided to return to the original papers and presentations of JPF, as the web site was short on real documentation. We found a presentation from one of the JPF developers, Willem Visser, which was presented at UC Santa Cruz in 2004 \cite{visser:presentation}. The important quote is ``Handle full Java language, mostly only for closed systems, cannot handle native code, no input/output through GUIs, files, Networks, must be modeled by java code instead.'' This is where our problems lied: Infinite Mario was attempting to open an image file from disk, and JPF would not allow it.
+
 \section{What We Learned}
 
 \subsection{Quality and Ease of Use}
