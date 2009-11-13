@@ -6,6 +6,14 @@
 % pdflatex main.tex
 
 \usepackage{listings}
+\lstset{basicstyle=\tt, % keep all these options
+        stringstyle=\tt,
+        emphstyle=\bfseries, % -or- \underline -or- \bfseries
+        basewidth=0.5em,
+        columns=fixed,
+        mathescape=true
+}
+%        emph={atomic,yield},
 
 \title{Using JPF/APROP for Infinite Mario}
 \author{Chris Lewis and Ben Samuel and Jaeheon Yi}
