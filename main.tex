@@ -1,6 +1,6 @@
 \documentclass[twocolumn]{article}
 
-\title{JPF and APROP for Infinite Mario}
+\title{JPF/APROP for Infinite Mario}
 \author{Chris Lewis and Ben Samuel and Jaeheon Yi}
 \begin{document}
 \maketitle
@@ -10,9 +10,19 @@ Java PathFinder (JPF) is a stateful software model checker developed at NASA AME
 It is a \emph{software model checker} because it systematically explores all paths and inputs directly for software;
 it is \emph{stateful} because it saves the program state after every logical operation. 
 
-Although JPF is a model checker, it is used more often as a systematic testing framework. 
+Although JPF is known as a model checker, it is used more often as a systematic testing and analysis framework. 
 Compared with simpler abstractions often used for hardware model checking, software is much more complex with potentially exponentially many more states;
 this quality makes exhaustive verification a difficult goal to attain. 
+However, the methodical manner in which JPF generates program runs makes it ideal for testing programs; 
+this compares much more favorably than with ad-hoc testing, which typically may only explore a fraction of the total state space without ever reaching a failure state. 
+
+JPF is also a powerful analysis framework; for example, one can implement data race and deadlock detection algorithms and have JPF run over different runs to find potentially disastrous program states. 
+
+JPF is a mature system with many extensions; for example, the core JPF system has been combined with symbolic execution the Bandera model constructor to create a richer feature set for testing and verification. 
+JPF has been used to find real errors in Remote Agent Spacecraft Controller, a mission critical software component that had previously deadlocked during operation in space. 
+It has also been used to find a very subtle concurrency error in a real time operating system. 
+
+
 
 \section{What We Tried}
 JPF is distributed as a single core, \texttt{jpf-core}, with a series of sub-projects build on top of it. We were interested in \texttt{jpf-aprop}. All of the sub-projects that have been worked on include a series of example files, which appear to be used for pseudo-documentation in lieu of actual manuals or tutorials.
