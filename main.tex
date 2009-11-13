@@ -20,11 +20,17 @@ this compares much more favorably than with ad-hoc testing, which typically may 
 
 JPF is also a powerful analysis framework; for example, one can implement data race and deadlock detection algorithms and have JPF run over different runs to find potentially disastrous program states. 
 
-JPF is a mature system with many extensions; for example, the core JPF system has been combined with symbolic execution the Bandera model constructor to create a richer feature set for testing and verification. 
+JPF is a mature system with many extensions; for example, the core JPF system has been combined with symbolic execution and the Bandera model constructor to create a richer feature set for testing and verification. 
 JPF has been used to find real errors in Remote Agent Spacecraft Controller, a mission critical software component that had previously deadlocked during operation in space. 
 It has also been used to find a very subtle concurrency error in a real time operating system. 
 
-
+The JPF/APROP project enables creating program property specifications using Java annotations, with listener programs to check that these properties hold during program execution. 
+Some annotations that are currently supported include:
+\begin{itemize}
+\item \tt{@Nonnull} - check 	return values and field for null value
+\item \tt{@Const} - check for object modification within scope
+\item \tt{@GuardedBy} - check if object is guarded by specified lock
+\end{itemize}
 
 \section{What We Tried}
 JPF is distributed as a single core, \texttt{jpf-core}, with a series of sub-projects build on top of it. We were interested in \texttt{jpf-aprop}. All of the sub-projects that have been worked on include a series of example files, which appear to be used for pseudo-documentation in lieu of actual manuals or tutorials.
