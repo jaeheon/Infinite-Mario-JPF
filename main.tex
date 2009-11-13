@@ -1,14 +1,19 @@
 \documentclass[twocolumn]{article}
+% To make document: 4 commands
+% pdflatex main.tex
+% bibtex main
+% pdflatex main.tex
+% pdflatex main.tex
 
 \usepackage{listings}
 
-\title{JPF/APROP for Infinite Mario}
+\title{Using JPF/APROP for Infinite Mario}
 \author{Chris Lewis and Ben Samuel and Jaeheon Yi}
 \begin{document}
 \maketitle
 
 \section{Introduction}
-Java PathFinder (JPF) is a stateful software model checker developed at NASA AMES Research Center. 
+Java PathFinder (JPF) is a stateful software model checker~\cite{DBLP:journals/ase/VisserHBPL03} developed at NASA AMES Research Center. 
 It is a \emph{software model checker} because it systematically explores all paths and inputs directly for software;
 it is \emph{stateful} because it saves the program state after every logical operation. 
 
@@ -20,18 +25,31 @@ this compares much more favorably than with ad-hoc testing, which typically may 
 
 JPF is also a powerful analysis framework; for example, one can implement data race and deadlock detection algorithms and have JPF run over different runs to find potentially disastrous program states. 
 
-JPF is a mature system with many extensions; for example, the core JPF system has been combined with symbolic execution and the Bandera model constructor to create a richer feature set for testing and verification. 
-JPF has been used to find real errors in Remote Agent Spacecraft Controller, a mission critical software component that had previously deadlocked during operation in space. 
-It has also been used to find a very subtle concurrency error in a real time operating system. 
+JPF is a mature system with many extensions; for example, the core JPF system has been combined with symbolic execution~\cite{DBLP:conf/tacas/AnandPV07} and the Bandera model constructor~\cite{DBLP:conf/fmoods/Dwyer02} to create a richer feature set for testing and verification. 
+JPF has been used to find real errors in Remote Agent Spacecraft Controller, a mission critical software component that had previously deadlocked during operation in space~\cite{DBLP:journals/ase/VisserHBPL03}. 
+It has also been used to find a very subtle concurrency error in a real time operating system\cite{DBLP:journals/ase/VisserHBPL03}. 
 
-The JPF/APROP project enables creating program property specifications using Java annotations, with listener programs to check that these properties hold during program execution. 
+\subsection{Modeling Language}
+
+The JPF system does not require a separate modeling phase; software is checked directly with a custom JVM. 
+We believe this is an advantage, due to the absence of a learning curve for a discrete modeling language. 
+However, to achieve proof of verification, one may need to abstract away much of the program state; 
+in this case, the absence of a modeling language may hinder such a goal. 
+
+\subsection{Specification Language}
+
+The JPF/APROP project~\cite{aprop} enables creating program property specifications using Java annotations, with listener programs to check that these properties hold during program execution. 
 Some annotations that are currently supported include:
+
 \begin{description}
 \item[\texttt{@Nonnull}] - check 	return values and field for null value
 \item[\texttt{@Const}] - check for object modification within scope
 \item[\texttt{@GuardedBy}] - check if object is guarded by specified lock
+\item[\texttt{@Requires, @Ensures, @Invariant}] - check pre- and post- conditions and invariants}
 \end{description}
 
+Since the specifications are largely based on Java annotations, we expect that these are not difficult to learn or use; 
+furthermore, Java annotations support the Java Modeling Language~\cite{DBLP:journals/sttt/BurdyCCEKLLP05}, a behavioral interface specification language, which can be used in a design-by-contract approach. 
 
 \section{What We Tried}
 JPF is distributed as a single core, \texttt{jpf-core}, with a series of sub-projects build on top of it. We were interested in \texttt{jpf-aprop}. All of the sub-projects that have been worked on include a series of example files, which appear to be used for pseudo-documentation in lieu of actual manuals or tutorials.
@@ -44,6 +62,7 @@ We created a plan to learn about JPF/aprop:
 	\item Use JPF/aprop on a small video game called Infinite Mario
 \end{itemize}
 
+\subsection{Ease of Use}
 Downloading the repository and the Eclipse plugin went as well as could be hoped for; as can be expected from a small open-source research project, there were some quirks (such as building each project individually, and a few bugs in the Eclipse plugin).
 
 \subsection{Verifying the examples}
@@ -104,10 +123,23 @@ java.lang.UnsatisfiedLinkError: java.awt.image.ColorModel.initIDs()V (no peer)
 
 It is here that our problems with JPF began. We were consistently encountering an error message (Fig. \ref{listing:error}) claiming that there was an uncaught UnsatisifedLinkError inside the Java APIs themselves. This error occurs when attempting to load an image file from disk. Wrapping the original call in the Infinite Mario code with a \texttt{try/catch} did not alleviate the problem, and we were unable to coerce JPF to continue execution. At this point, we decided to refocus our efforts on trying to ascertain the limitations with JPF than attempting to continue with new examples. It was clear that there was a fundamental issue with JPF that we had not anticipated. 
 
-
-
 \section{What We Learned}
 
+\subsection{Quality and Ease of Use}
+Our initial impression of JPF was of a mature software system, able to be used for heavy-duty verification purposes as well as comprehensive testing. 
+
+
+\subsection{Limitations}
+Although quite powerful, JPF has some limitations, some more serious to us than others. 
+For example, JPF cannot track JNI code~\cite{jni}, and requires developers to ``mock up'' the native code that gets executed as Java code. 
+Another issue we encountered is that JPF requires a closed system to be tested. 
+Although our Infinite Mario game already had a testing harness to automatically play the game, for other projects it represents a potentially significant undertaking to create such a testing harness for closing the system. 
+
 \section{Conclusion}
+
+
+
+\bibliographystyle{plain}
+\bibliography{bib}
 
 \end{document}
