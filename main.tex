@@ -1,5 +1,7 @@
 \documentclass[twocolumn]{article}
 
+\usepackage{listings}
+
 \title{JPF/APROP for Infinite Mario}
 \author{Chris Lewis and Ben Samuel and Jaeheon Yi}
 \begin{document}
@@ -38,9 +40,44 @@ We created a plan to learn about JPF/aprop:
 Downloading the repository and the Eclipse plugin went as well as could be hoped for; as can be expected from a small open-source research project, there were some quirks (such as building each project individually, and a few bugs in the Eclipse plugin).
 
 \subsection{Verifying the examples}
-The \texttt{jpf-aprop} package comes with some small examples that illustrate various functionality. A JPF/aprop example contains one Java file, and one file with configuration project-specific configuration parameters, commonly referred to as a JPF file. It is worth noting that it is not necessary to have a JPF file in order to run a project with the JPF JVM, as long as you specify the correct parameters on the command-line. However, the Eclipse plugin relies on JPF files in order to verify a program, and we have not encountered an example from the developers which have not utilized a JPF file.
+The \texttt{jpf-aprop} package comes with some small examples that illustrate various functionality. A JPF/aprop example contains one Java file, and one file with configuration project-specific configuration parameters, commonly referred to as a JPF file. It is worth noting that it is not necessary to have a JPF file in order to run a project with the JPF JVM, as long as you specify the correct parameters on the command-line. However, the Eclipse plugin relies on JPF files in order to verify a program, and we have not encountered an example from the developers which have not utilized a JPF file. 
 
+An example JPF file from the JPF/aprop project can be found in Figure \ref{listing:jpffile}, and a code extract from the Java file it operates on in Figure \ref{listing:nonnull}
 
+\begin{figure}[tb]
+    \lstset{language=,breaklines=true}
+    \begin{lstlisting}
+target = NonnullViolation
+
+listener.autoload=\
+  javax.annotation.Nonnull
+
+listener.javax.annotation.Nonnull=.aprop.listener.NonnullChecker
+    \end{lstlisting}
+    \caption{A JPF file that registers the detection \texttt{@NonNull} violation. Here we see the target class to be tested, and a listener defined to listen for a specific annotation.}
+    \label{listing:jpffile}
+\end{figure}
+
+\begin{figure}[tb]
+    \lstset{language=java,breaklines=true}
+    \begin{lstlisting}
+@Nonnull String id;
+
+NonnullViolation (){
+  id = null
+}
+
+@Nonnull
+Object giveMeSomeObject() {
+  return null;
+}
+
+\end{lstlisting}
+	\caption{A Java extract showing two violations of the @NonNull annotation. The first violation is the assignment of \texttt{id} to null, even though \texttt{id} must remain non-null. The second violation is the \texttt{giveMeSomeObject()} method, that returns null even though the annotation claims it won't.}
+	    \label{listing:nonnull}
+	\end{figure}
+
+We were able to verify the examples correctly, with an assertion exception being thrown when the non-null annotations were violated. Of interest is that it is not the fact that an uncaught exception is thrown that causes JPF to complain of an error, it is that a listener, \texttt{gov.nasa.jpf.jvm.NoUncaughtExceptionsProperty}, is defined to throw an error when an uncaught exception is thrown. If you disable this listener, much of the JPF functionality is disabled (including this example), and JPF will report a verified error-free execution, even though it is not.
 
 \section{What We Learned}
 
