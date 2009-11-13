@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
 
 \title{JPF/APROP for Infinite Mario}
 \author{Chris Lewis and Ben Samuel and Jaeheon Yi}
@@ -31,6 +31,22 @@ Some annotations that are currently supported include:
 \end{itemize}
 
 \section{What We Tried}
+JPF is distributed as a single core, \texttt{jpf-core}, with a series of sub-projects build on top of it. We were interested in \texttt{jpf-aprop}. All of the sub-projects that have been worked on include a series of example files, which appear to be used for pseudo-documentation in lieu of actual manuals or tutorials.
+
+We created a plan to learn about JPF/aprop:
+\begin{itemize}
+	\item Download JPF from the Mercurial repository and build the core and relevant subsystems
+	\item Install the Eclipse plugin for rapid development
+	\item Verify that the examples function as expected
+	\item Use JPF/aprop on a small video game called Infinite Mario
+\end{itemize}
+
+Downloading the repository and the Eclipse plugin went as well as could be hoped for; as can be expected from a small open-source research project, there were some quirks (such as building each project individually, and a few bugs in the Eclipse plugin).
+
+\subsection{Verifying the examples}
+The \texttt{jpf-aprop} package comes with some small examples that illustrate various functionality. A JPF/aprop example contains one Java file, and one file with configuration project-specific configuration parameters, commonly referred to as a JPF file. It is worth noting that it is not necessary to have a JPF file in order to run a project with the JPF JVM, as long as you specify the correct parameters on the command-line. However, the Eclipse plugin relies on JPF files in order to verify a program, and we have not encountered an example from the developers which have not utilized a JPF file.
+
+
 
 \section{What We Learned}
 
